@@ -1,4 +1,4 @@
-public class AdministradoraUbicaciones {
+    public class AdministradoraUbicaciones {
     public static final int MAXIMO_UBICACION = 100;
 
     private Ubicacion[] ubicaciones;
@@ -32,7 +32,7 @@ public class AdministradoraUbicaciones {
         }
         clave = codigo.trim().toUpperCase();
         for (i = 0; i < contadorUbicacion; i = i + 1) {
-            if (ubicaciones[i].getCodigo().equals(clave)) {
+            if (ubicaciones[i].obtenerCodigo().equals(clave)) {
                 return ubicaciones[i];
             }
         }
@@ -42,25 +42,25 @@ public class AdministradoraUbicaciones {
     public boolean actualizarUbicacion(String codigo, String pasillo, String estante, int nivel) {
         Ubicacion encontrada;
         encontrada = buscarUbicacion(codigo);
-        if (encontrada == null || !encontrada.getActivo()) {
+        if (encontrada == null || !encontrada.obtenerActivo()) {
             return false;
         }
         if (nivel < Ubicacion.NIVEL_MINIMO || nivel > Ubicacion.NIVEL_MAXIMO) {
             return false;
         }
-        encontrada.setPasillo(pasillo);
-        encontrada.setEstante(estante);
-        encontrada.setNivel(nivel);
+        encontrada.asignarPasillo(pasillo);
+        encontrada.asignarEstante(estante);
+        encontrada.asignarNivel(nivel);
         return true;
     }
 
     public boolean darBajaUbicacion(String codigo) {
         Ubicacion encontrada;
         encontrada = buscarUbicacion(codigo);
-        if (encontrada == null || !encontrada.getActivo()) {
+        if (encontrada == null || !encontrada.obtenerActivo()) {
             return false;
         }
-        encontrada.setActivo(false);
+        encontrada.asignarActivo(false);
         return true;
     }
 
@@ -72,16 +72,3 @@ public class AdministradoraUbicaciones {
         }
         salida = new StringBuilder();
         for (i = 0; i < contadorUbicacion; i = i + 1) {
-            salida.append(ubicaciones[i].obtenerFicha()).append("\n");
-        }
-        return salida.toString().trim();
-    }
-
-    public Ubicacion[] getUbicaciones() {
-        return ubicaciones;
-    }
-
-    public int getContadorUbicacion() {
-        return contadorUbicacion;
-    }
-}
