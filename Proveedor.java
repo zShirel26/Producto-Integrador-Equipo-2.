@@ -1,4 +1,5 @@
 public class Proveedor extends ElementoCatalogo {
+
     private String nombre;
     private String telefono;
 
@@ -10,10 +11,7 @@ public class Proveedor extends ElementoCatalogo {
 
     @Override
     public String obtenerFicha() {
-        String estado;
-        estado = getActivo() ? "ACTIVO" : "INACTIVO";
-        return "[" + getCodigo() + "] Proveedor: " + nombre
-                + " | Tel: " + telefono + " | Estado: " + estado;
+        return getCodigo() + " | " + nombre + " | Tel: " + telefono;
     }
 
     public String getNombre() {
@@ -21,11 +19,10 @@ public class Proveedor extends ElementoCatalogo {
     }
 
     public void setNombre(String nombre) {
-        if (nombre != null && !nombre.trim().isEmpty()) {
-            this.nombre = nombre.trim();
-        } else if (this.nombre == null) {
-            this.nombre = "Sin nombre";
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacio.");
         }
+        this.nombre = nombre.trim();
     }
 
     public String getTelefono() {
@@ -33,10 +30,9 @@ public class Proveedor extends ElementoCatalogo {
     }
 
     public void setTelefono(String telefono) {
-        if (telefono != null && !telefono.trim().isEmpty()) {
-            this.telefono = telefono.trim();
-        } else if (this.telefono == null) {
-            this.telefono = "Sin telefono";
+        if (telefono == null || telefono.trim().isEmpty()) {
+            throw new IllegalArgumentException("El telefono no puede estar vacio.");
         }
+        this.telefono = telefono.trim();
     }
 }
