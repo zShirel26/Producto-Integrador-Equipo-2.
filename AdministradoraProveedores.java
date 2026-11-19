@@ -1,4 +1,4 @@
-public class AdministradoraProveedores {
+    public class AdministradoraProveedores {
     public static final int MAXIMO_PROVEEDOR = 100;
 
     private Proveedor[] proveedores;
@@ -29,7 +29,7 @@ public class AdministradoraProveedores {
         }
         clave = codigo.trim().toUpperCase();
         for (i = 0; i < contadorProveedor; i = i + 1) {
-            if (proveedores[i].getCodigo().equals(clave)) {
+            if (proveedores[i].obtenerCodigo().equals(clave)) {
                 return proveedores[i];
             }
         }
@@ -39,21 +39,21 @@ public class AdministradoraProveedores {
     public boolean actualizarProveedor(String codigo, String nombre, String telefono) {
         Proveedor encontrado;
         encontrado = buscarProveedor(codigo);
-        if (encontrado == null || !encontrado.getActivo()) {
+        if (encontrado == null || !encontrado.obtenerActivo()) {
             return false;
         }
-        encontrado.setNombre(nombre);
-        encontrado.setTelefono(telefono);
+        encontrado.asignarNombre(nombre);
+        encontrado.asignarTelefono(telefono);
         return true;
     }
 
     public boolean darBajaProveedor(String codigo) {
         Proveedor encontrado;
         encontrado = buscarProveedor(codigo);
-        if (encontrado == null || !encontrado.getActivo()) {
+        if (encontrado == null || !encontrado.obtenerActivo()) {
             return false;
         }
-        encontrado.setActivo(false);
+        encontrado.asignarActivo(false);
         return true;
     }
 
@@ -70,11 +70,11 @@ public class AdministradoraProveedores {
         return salida.toString().trim();
     }
 
-    public Proveedor[] getProveedores() {
+    public Proveedor[] obtenerProveedores() {
         return proveedores;
     }
 
-    public int getContadorProveedor() {
+    public int obtenerContadorProveedor() {
         return contadorProveedor;
     }
 }
