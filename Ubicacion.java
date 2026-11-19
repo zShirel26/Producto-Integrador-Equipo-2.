@@ -1,4 +1,4 @@
-public class Ubicacion extends ElementoCatalogo {
+    public class Ubicacion extends ElementoCatalogo {
     public static final int NIVEL_MINIMO = 1;
     public static final int NIVEL_MAXIMO = 10;
 
@@ -8,25 +8,25 @@ public class Ubicacion extends ElementoCatalogo {
 
     public Ubicacion(String codigo, String pasillo, String estante, int nivel) {
         super(codigo);
-        setPasillo(pasillo);
-        setEstante(estante);
-        setNivel(nivel);
+        asignarPasillo(pasillo);
+        asignarEstante(estante);
+        asignarNivel(nivel);
     }
 
     @Override
     public String obtenerFicha() {
         String estado;
-        estado = getActivo() ? "ACTIVA" : "INACTIVA";
-        return "[" + getCodigo() + "] Pasillo: " + pasillo
+        estado = obtenerActivo() ? "ACTIVA" : "INACTIVA";
+        return "[" + obtenerCodigo() + "] Pasillo: " + pasillo
                 + " | Estante: " + estante + " | Nivel: " + nivel
                 + " | Estado: " + estado;
     }
 
-    public String getPasillo() {
+    public String obtenerPasillo() {
         return pasillo;
     }
 
-    public void setPasillo(String pasillo) {
+    public void asignarPasillo(String pasillo) {
         if (pasillo != null && !pasillo.trim().isEmpty()) {
             this.pasillo = pasillo.trim().toUpperCase();
         } else if (this.pasillo == null) {
@@ -34,11 +34,11 @@ public class Ubicacion extends ElementoCatalogo {
         }
     }
 
-    public String getEstante() {
+    public String obtenerEstante() {
         return estante;
     }
 
-    public void setEstante(String estante) {
+    public void asignarEstante(String estante) {
         if (estante != null && !estante.trim().isEmpty()) {
             this.estante = estante.trim().toUpperCase();
         } else if (this.estante == null) {
@@ -46,11 +46,11 @@ public class Ubicacion extends ElementoCatalogo {
         }
     }
 
-    public int getNivel() {
+    public int obtenerNivel() {
         return nivel;
     }
 
-    public void setNivel(int nivel) {
+    public void asignarNivel(int nivel) {
         if (nivel >= NIVEL_MINIMO && nivel <= NIVEL_MAXIMO) {
             this.nivel = nivel;
         } else if (this.nivel < NIVEL_MINIMO) {
