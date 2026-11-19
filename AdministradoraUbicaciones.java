@@ -72,3 +72,11 @@
         }
         salida = new StringBuilder();
         for (i = 0; i < contadorUbicacion; i = i + 1) {
+            salida.append(ubicaciones[i].obtenerFicha()).append("\n");
+        }
+        return salida.toString().trim();
+    }
+
+    public Ubicacion[] getUbicaciones() { return ubicaciones; }
+    public int getContadorUbicaciones() { return contadorUbicacion; }
+}
