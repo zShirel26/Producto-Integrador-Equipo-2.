@@ -1,9 +1,9 @@
-public class AdministradoraProducto {
+public class AdministradoraProductos {
     public static final int MAXIMO_PRODUCTOS = 100;
     private Producto[] productos;
     private int contadorProductos;
 
-    public AdministradoraProducto() {
+    public AdministradoraProductos() {
         productos = new Producto[MAXIMO_PRODUCTOS];
         contadorProductos = 0;
     }
@@ -24,7 +24,7 @@ public class AdministradoraProducto {
             return null;
         }
         for (int i = 0; i < contadorProductos; i++) {
-            if (productos[i].getCodigo().equalsIgnoreCase(codigo.trim())) {
+            if (productos[i].obtenerCodigo().equalsIgnoreCase(codigo.trim())) {
                 return productos[i];
             }
         }
@@ -34,30 +34,30 @@ public class AdministradoraProducto {
     public boolean actualizarProducto(String codigo, String descripcion, double precio, int inventarioMinimo,
                                       Proveedor proveedor, Ubicacion ubicacion) {
         Producto encontrado = buscarProducto(codigo);
-        if (encontrado == null || !encontrado.isActivo() || !referenciasValidas(proveedor, ubicacion)) {
+        if (encontrado == null || !encontrado.obtenerActivo() || !referenciasValidas(proveedor, ubicacion)) {
             return false;
         }
-        encontrado.setDescripcion(descripcion);
-        encontrado.setPrecio(precio);
-        encontrado.setInventarioMinimo(inventarioMinimo);
-        encontrado.setProveedor(proveedor);
-        encontrado.setUbicacion(ubicacion);
+        encontrado.asignarDescripcion(descripcion);
+        encontrado.asignarPrecio(precio);
+        encontrado.asignarInventarioMinimo(inventarioMinimo);
+        encontrado.asignarProveedor(proveedor);
+        encontrado.asignarUbicacion(ubicacion);
         return true;
     }
 
     public boolean darBajaProducto(String codigo) {
         Producto encontrado = buscarProducto(codigo);
-        if (encontrado == null || !encontrado.isActivo()) {
+        if (encontrado == null || !encontrado.obtenerActivo()) {
             return false;
         }
-        encontrado.setActivo(false);
+        encontrado.asignarActivo(false);
         return true;
     }
 
     private boolean referenciasValidas(Proveedor proveedor, Ubicacion ubicacion) {
-        return proveedor != null && proveedor.isActivo() && ubicacion != null && ubicacion.isActivo();
+        return proveedor != null && proveedor.obtenerActivo() && ubicacion != null && ubicacion.obtenerActivo();
     }
 
-    public Producto[] getProductos() { return productos; }
-    public int getContadorProductos() { return contadorProductos; }
+    public Producto[] obtenerProductos() { return productos; }
+    public int obtenerContadorProductos() { return contadorProductos; }
 }
