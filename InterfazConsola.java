@@ -41,10 +41,10 @@ public class InterfazConsola {
 
     public InterfazConsola(AdministradoraProveedores admProveedores, AdministradoraUbicaciones admUbicaciones, AdministradoraProductos admProductos, AdministradoraMovimientos admMovimientos) {
         this.lector = new Scanner(System.in);
-        this.admProveedores = admProveedores;
-        this.admUbicaciones = admUbicaciones;
-        this.admProductos = admProductos;
-        this.admMovimientos = admMovimientos;
+        asignarAdmProveedores(admProveedores);
+        asignarAdmUbicaciones(admUbicaciones);
+        asignarAdmProductos(admProductos);
+        asignarAdmMovimientos(admMovimientos);
     }
 
     public void cargarDatosIniciales() {
@@ -87,14 +87,14 @@ public class InterfazConsola {
         System.out.println(" CONTROL DE INVENTARIO DE REFACCIONES");
         System.out.println("==============================================");
         System.out.println("Datos de demostracion cargados:");
-        System.out.println(" - Proveedores: " + admProveedores.getContadorProveedores());
-        System.out.println(" - Ubicaciones: " + admUbicaciones.getContadorUbicaciones());
-        System.out.println(" - Productos:   " + admProductos.getContadorProductos());
-        System.out.println(" - Movimientos: " + admMovimientos.getContadorMovimientos());
+        System.out.println(" - Proveedores: " + admProveedores.obtenerContadorProveedores());
+        System.out.println(" - Ubicaciones: " + admUbicaciones.obtenerContadorUbicaciones());
+        System.out.println(" - Productos:   " + admProductos.obtenerContadorProductos());
+        System.out.println(" - Movimientos: " + admMovimientos.obtenerContadorMovimientos());
 
         Producto balata = admProductos.buscarProducto("BAL-001");
         if (balata != null) {
-            System.out.println("\nPrueba de validacion: salida de " + SALIDA_EXCESIVA_PRUEBA + " piezas de " + balata.getDescripcion());
+            System.out.println("\nPrueba de validacion: salida de " + SALIDA_EXCESIVA_PRUEBA + " piezas de " + balata.obtenerDescripcion());
             try {
                 Salida s = admMovimientos.registrarSalida("S-PRUEBA", LocalDate.now(), balata, SALIDA_EXCESIVA_PRUEBA, "PRUEBA");
                 if (s == null) {
@@ -216,13 +216,13 @@ public class InterfazConsola {
 
     private void listarProveedores() {
         System.out.println("\n--- Listado de proveedores ---");
-        Proveedor[] lista = admProveedores.getProveedores();
-        int total = admProveedores.getContadorProveedores();
+        Proveedor[] lista = admProveedores.obtenerProveedores();
+        int total = admProveedores.obtenerContadorProveedores();
         if (total == 0) {
             System.out.println("(sin registros)");
         }
         for (int i = 0; i < total; i++) {
-            System.out.println((lista[i].isActivo() ? "[ACTIVO]   " : "[INACTIVO] ") + lista[i].obtenerFicha());
+            System.out.println((lista[i].obtenerActivo() ? "[ACTIVO]   " : "[INACTIVO] ") + lista[i].obtenerFicha());
         }
     }
 
@@ -274,13 +274,13 @@ public class InterfazConsola {
 
     private void listarUbicaciones() {
         System.out.println("\n--- Listado de ubicaciones ---");
-        Ubicacion[] lista = admUbicaciones.getUbicaciones();
-        int total = admUbicaciones.getContadorUbicaciones();
+        Ubicacion[] lista = admUbicaciones.obtenerUbicaciones();
+        int total = admUbicaciones.obtenerContadorUbicaciones();
         if (total == 0) {
             System.out.println("(sin registros)");
         }
         for (int i = 0; i < total; i++) {
-            System.out.println((lista[i].isActivo() ? "[ACTIVO]   " : "[INACTIVO] ") + lista[i].obtenerFicha());
+            System.out.println((lista[i].obtenerActivo() ? "[ACTIVO]   " : "[INACTIVO] ") + lista[i].obtenerFicha());
         }
     }
 
@@ -361,15 +361,15 @@ public class InterfazConsola {
 
     private void listarProductos() {
         System.out.println("\n--- Listado de productos ---");
-        Producto[] lista = admProductos.getProductos();
-        int total = admProductos.getContadorProductos();
+        Producto[] lista = admProductos.obtenerProductos();
+        int total = admProductos.obtenerContadorProductos();
         if (total == 0) {
             System.out.println("(sin registros)");
         }
         for (int i = 0; i < total; i++) {
             Producto p = lista[i];
-            int existencia = admMovimientos.calcularExistencia(p.getCodigo());
-            System.out.println((p.isActivo() ? "[ACTIVO]   " : "[INACTIVO] ") + p.getCodigo() + " | " + p.getDescripcion() + " | $" + String.format("%.2f", p.getPrecio()) + " | Existencia: " + existencia + " | Minimo: " + p.getInventarioMinimo());
+            int existencia = admMovimientos.calcularExistencia(p.obtenerCodigo());
+            System.out.println((p.obtenerActivo() ? "[ACTIVO]   " : "[INACTIVO] ") + p.obtenerCodigo() + " | " + p.obtenerDescripcion() + " | $" + String.format("%.2f", p.obtenerPrecio()) + " | Existencia: " + existencia + " | Minimo: " + p.obtenerInventarioMinimo());
         }
     }
 
@@ -388,7 +388,7 @@ public class InterfazConsola {
             if (e == null) {
                 mostrarResultadoOperacion("No se pudo registrar la entrada (folio repetido o producto inactivo).");
             } else {
-                mostrarResultadoOperacion("Entrada registrada. Existencia actual: " + admMovimientos.calcularExistencia(producto.getCodigo()));
+                mostrarResultadoOperacion("Entrada registrada. Existencia actual: " + admMovimientos.calcularExistencia(producto.obtenerCodigo()));
             }
         } catch (Exception ex) {
             mostrarResultadoOperacion("Error: " + ex.getMessage());
@@ -411,10 +411,10 @@ public class InterfazConsola {
                 mostrarResultadoOperacion("No se pudo registrar la salida (existencias insuficientes, folio repetido o producto inactivo).");
                 return;
             }
-            int restante = admMovimientos.calcularExistencia(producto.getCodigo());
+            int restante = admMovimientos.calcularExistencia(producto.obtenerCodigo());
             mostrarResultadoOperacion("Salida registrada. Existencia restante: " + restante);
             if (producto.esBajoMinimo(restante)) {
-                mostrarResultadoOperacion("AVISO: el producto quedo por debajo del inventario minimo (" + producto.getInventarioMinimo() + "). Conviene pedir al proveedor.");
+                mostrarResultadoOperacion("AVISO: el producto quedo por debajo del inventario minimo (" + producto.obtenerInventarioMinimo() + "). Conviene pedir al proveedor.");
             }
         } catch (Exception ex) {
             mostrarResultadoOperacion("Error: " + ex.getMessage());
@@ -446,10 +446,10 @@ public class InterfazConsola {
             mostrarResultadoOperacion("Producto no encontrado.");
             return;
         }
-        int existencia = admMovimientos.calcularExistencia(p.getCodigo());
+        int existencia = admMovimientos.calcularExistencia(p.obtenerCodigo());
         System.out.println(p.obtenerFicha());
         System.out.println("Existencia disponible: " + existencia + " piezas");
-        System.out.println(p.esBajoMinimo(existencia) ? "Estado: BAJO EL MINIMO (" + p.getInventarioMinimo() + ")" : "Estado: existencia suficiente");
+        System.out.println(p.esBajoMinimo(existencia) ? "Estado: BAJO EL MINIMO (" + p.obtenerInventarioMinimo() + ")" : "Estado: existencia suficiente");
     }
 
     public void mostrarHistorial() {
@@ -459,37 +459,37 @@ public class InterfazConsola {
             mostrarResultadoOperacion("Producto no encontrado.");
             return;
         }
-        System.out.println("Producto: " + p.getCodigo() + " - " + p.getDescripcion());
-        Movimiento[] lista = admMovimientos.getMovimientos();
-        int total = admMovimientos.getContadorMovimientos();
+        System.out.println("Producto: " + p.obtenerCodigo() + " - " + p.obtenerDescripcion());
+        Movimiento[] lista = admMovimientos.obtenerMovimientos();
+        int total = admMovimientos.obtenerContadorMovimientos();
         int encontrados = 0;
         for (int i = 0; i < total; i++) {
             Movimiento m = lista[i];
-            if (m != null && m.getProducto().getCodigo().equals(p.getCodigo())) {
+            if (m != null && m.obtenerProducto().obtenerCodigo().equals(p.obtenerCodigo())) {
                 String signo = m.calcularVariacion() >= 0 ? "+" : "";
-                System.out.println(m.getFolio() + " | " + m.getFecha() + " | " + m.obtenerTipoMovimiento() + " | " + signo + m.calcularVariacion() + " pzas | P.U. $" + String.format("%.2f", m.getPrecioUnitario()) + " | Importe $" + String.format("%.2f", m.calcularImporte()));
+                System.out.println(m.obtenerFolio() + " | " + m.obtenerFecha() + " | " + m.obtenerTipoMovimiento() + " | " + signo + m.calcularVariacion() + " pzas | P.U. $" + String.format("%.2f", m.obtenerPrecioUnitario()) + " | Importe $" + String.format("%.2f", m.calcularImporte()));
                 encontrados++;
             }
         }
         if (encontrados == 0) {
             System.out.println("(sin movimientos)");
         }
-        System.out.println("Existencia actual: " + admMovimientos.calcularExistencia(p.getCodigo()));
+        System.out.println("Existencia actual: " + admMovimientos.calcularExistencia(p.obtenerCodigo()));
     }
 
     public void mostrarProductosBajoMinimo() {
         System.out.println("\n--- PRODUCTOS BAJO EL MINIMO ---");
-        Producto[] lista = admProductos.getProductos();
-        int total = admProductos.getContadorProductos();
+        Producto[] lista = admProductos.obtenerProductos();
+        int total = admProductos.obtenerContadorProductos();
         int encontrados = 0;
         for (int i = 0; i < total; i++) {
             Producto p = lista[i];
-            if (!p.isActivo()) {
+            if (!p.obtenerActivo()) {
                 continue;
             }
-            int existencia = admMovimientos.calcularExistencia(p.getCodigo());
+            int existencia = admMovimientos.calcularExistencia(p.obtenerCodigo());
             if (p.esBajoMinimo(existencia)) {
-                System.out.println(p.getCodigo() + " | " + p.getDescripcion() + " | Existencia: " + existencia + " | Minimo: " + p.getInventarioMinimo() + " | Proveedor: " + p.getProveedor().getNombre());
+                System.out.println(p.obtenerCodigo() + " | " + p.obtenerDescripcion() + " | Existencia: " + existencia + " | Minimo: " + p.obtenerInventarioMinimo() + " | Proveedor: " + p.obtenerProveedor().obtenerNombre());
                 encontrados++;
             }
         }
@@ -569,15 +569,15 @@ public class InterfazConsola {
         }
     }
 
-    public AdministradoraProveedores getAdmProveedores() { return admProveedores; }
-    public void setAdmProveedores(AdministradoraProveedores admProveedores) { this.admProveedores = admProveedores; }
+    public AdministradoraProveedores obtenerAdmProveedores() { return admProveedores; }
+    public void asignarAdmProveedores(AdministradoraProveedores admProveedores) { this.admProveedores = admProveedores; }
     
-    public AdministradoraUbicaciones getAdmUbicaciones() { return admUbicaciones; }
-    public void setAdmUbicaciones(AdministradoraUbicaciones admUbicaciones) { this.admUbicaciones = admUbicaciones; }
+    public AdministradoraUbicaciones obtenerAdmUbicaciones() { return admUbicaciones; }
+    public void asignarAdmUbicaciones(AdministradoraUbicaciones admUbicaciones) { this.admUbicaciones = admUbicaciones; }
     
-    public AdministradoraProductos getAdmProductos() { return admProductos; }
-    public void setAdmProductos(AdministradoraProductos admProductos) { this.admProductos = admProductos; }
+    public AdministradoraProductos obtenerAdmProductos() { return admProductos; }
+    public void asignarAdmProductos(AdministradoraProductos admProductos) { this.admProductos = admProductos; }
     
-    public AdministradoraMovimientos getAdmMovimientos() { return admMovimientos; }
-    public void setAdmMovimientos(AdministradoraMovimientos admMovimientos) { this.admMovimientos = admMovimientos; }
+    public AdministradoraMovimientos obtenerAdmMovimientos() { return admMovimientos; }
+    public void asignarAdmMovimientos(AdministradoraMovimientos admMovimientos) { this.admMovimientos = admMovimientos; }
 }
