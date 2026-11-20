@@ -26,7 +26,7 @@ public class AdministradoraMovimientos {
     public Salida registrarSalida(String folio, LocalDate fecha, Producto producto, int cantidad, String unidadDestino) {
         Salida salida = null;
         if (puedeRegistrar(folio, producto, cantidad)) {
-            if (calcularExistencia(producto.getCodigo()) >= cantidad) {
+            if (calcularExistencia(producto.obtenerCodigo()) >= cantidad) {
                 salida = new Salida(folio, fecha, producto, cantidad, unidadDestino);
                 movimientos[contadorMovimientos] = salida;
                 contadorMovimientos++;
@@ -40,7 +40,7 @@ public class AdministradoraMovimientos {
         int indice = buscarIndiceMovimiento(folio);
         if (indice != INDICE_NO_ENCONTRADO) {
             Movimiento m = movimientos[indice];
-            int existenciaResultante = calcularExistencia(m.getProducto().getCodigo()) - m.calcularVariacion();
+            int existenciaResultante = calcularExistencia(m.obtenerProducto().obtenerCodigo()) - m.calcularVariacion();
             if (existenciaResultante >= 0) {
                 for (int i = indice; i < contadorMovimientos - 1; i++) {
                     movimientos[i] = movimientos[i + 1];
@@ -61,7 +61,7 @@ public class AdministradoraMovimientos {
         int indiceEncontrado = INDICE_NO_ENCONTRADO;
         if (folio != null) {
             for (int i = 0; i < contadorMovimientos; i++) {
-                if (movimientos[i].getFolio().equalsIgnoreCase(folio.trim())) {
+                if (movimientos[i].obtenerFolio().equalsIgnoreCase(folio.trim())) {
                     indiceEncontrado = i;
                     break;
                 }
@@ -83,7 +83,7 @@ public class AdministradoraMovimientos {
         int existencia = 0;
         if (codigoProducto != null) {
             for (int i = 0; i < contadorMovimientos; i++) {
-                if (movimientos[i].getProducto().getCodigo().equalsIgnoreCase(codigoProducto.trim())) {
+                if (movimientos[i].obtenerProducto().obtenerCodigo().equalsIgnoreCase(codigoProducto.trim())) {
                     existencia += movimientos[i].calcularVariacion();
                 }
             }
@@ -91,15 +91,15 @@ public class AdministradoraMovimientos {
         return existencia;
     }
 
-    public Movimiento[] getMovimientos() {
+    public Movimiento[] obtenerMovimientos() {
         return movimientos;
     }
 
-    public int getContadorMovimientos() {
+    public int obtenerContadorMovimientos() {
         return contadorMovimientos;
     }
 
     private boolean puedeRegistrar(String folio, Producto producto, int cantidad) {
-        return folio != null && !folio.trim().isEmpty() && producto != null && producto.isActivo() && cantidad >= Movimiento.CANTIDAD_MINIMA && contadorMovimientos < MAXIMO_MOVIMIENTOS && !existeMovimiento(folio);
+        return folio != null && !folio.trim().isEmpty() && producto != null && producto.obtenerActivo() && cantidad >= Movimiento.CANTIDAD_MINIMA && contadorMovimientos < MAXIMO_MOVIMIENTOS && !existeMovimiento(folio);
     }
 }
