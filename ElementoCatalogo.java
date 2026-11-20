@@ -4,28 +4,28 @@ public abstract class ElementoCatalogo {
     private boolean activo;
 
     public ElementoCatalogo(String codigo) {
-        setCodigo(codigo);
-        setActivo(true);
+        asignarCodigo(codigo);
+        asignarActivo(true);
     }
 
     public abstract String obtenerFicha();
 
-    public String getCodigo() {
+    public String obtenerCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void asignarCodigo(String codigo) {
         if (codigo == null || codigo.trim().isEmpty()) {
             throw new IllegalArgumentException("El codigo no puede estar vacio.");
         }
         this.codigo = codigo.trim();
     }
 
-    public boolean isActivo() {
+    public boolean obtenerActivo() {
         return activo;
     }
 
-    public void setActivo(boolean activo) {
+    public void asignarActivo(boolean activo) {
         this.activo = activo;
     }
 }
