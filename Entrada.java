@@ -5,17 +5,17 @@ public class Entrada extends Movimiento {
 
     public Entrada(String folio, LocalDate fecha, Producto producto, int cantidad, String facturaProveedor) {
         super(folio, fecha, producto, cantidad);
-        setFacturaProveedor(facturaProveedor);
+        asignarFacturaProveedor(facturaProveedor);
     }
 
     @Override
-    public int calcularVariacion() { return getCantidad(); }
+    public int calcularVariacion() { return obtenerCantidad(); }
 
     @Override
     public String obtenerTipoMovimiento() { return "Entrada"; }
 
-    public String getFacturaProveedor() { return facturaProveedor; }
-    public void setFacturaProveedor(String facturaProveedor) {
+    public String obtenerFacturaProveedor() { return facturaProveedor; }
+    public void asignarFacturaProveedor(String facturaProveedor) {
         if (facturaProveedor == null || facturaProveedor.trim().isEmpty()) {
             throw new IllegalArgumentException("La factura del proveedor es obligatoria.");
         }
