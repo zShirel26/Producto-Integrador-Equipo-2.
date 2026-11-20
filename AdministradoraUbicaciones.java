@@ -1,4 +1,4 @@
-    public class AdministradoraUbicaciones {
+public class AdministradoraUbicaciones {
     public static final int MAXIMO_UBICACION = 100;
 
     private Ubicacion[] ubicaciones;
@@ -77,6 +77,6 @@
         return salida.toString().trim();
     }
 
-    public Ubicacion[] getUbicaciones() { return ubicaciones; }
-    public int getContadorUbicaciones() { return contadorUbicacion; }
+    public Ubicacion[] obtenerUbicaciones() { return ubicaciones; }
+    public int obtenerContadorUbicaciones() { return contadorUbicacion; }
 }
