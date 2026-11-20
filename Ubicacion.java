@@ -1,4 +1,4 @@
-    public class Ubicacion extends ElementoCatalogo {
+public class Ubicacion extends ElementoCatalogo {
     public static final int NIVEL_MINIMO = 1;
     public static final int NIVEL_MAXIMO = 10;
 
