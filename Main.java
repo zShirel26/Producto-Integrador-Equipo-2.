@@ -10,8 +10,6 @@ public class Main {
                 admProveedores, admUbicaciones, admProductos, admMovimientos);
 
         try {
-            interfaz.cargarDatosIniciales();
-            interfaz.mostrarResumenDemostracion();
             interfaz.ejecutarMenuPrincipal();
         } finally {
             interfaz.cerrarRecursos();
