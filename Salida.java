@@ -5,17 +5,17 @@ public class Salida extends Movimiento {
 
     public Salida(String folio, LocalDate fecha, Producto producto, int cantidad, String unidadDestino) {
         super(folio, fecha, producto, cantidad);
-        setUnidadDestino(unidadDestino);
+        asignarUnidadDestino(unidadDestino);
     }
 
     @Override
-    public int calcularVariacion() { return -getCantidad(); }
+    public int calcularVariacion() { return -obtenerCantidad(); }
 
     @Override
     public String obtenerTipoMovimiento() { return "Salida"; }
 
-    public String getUnidadDestino() { return unidadDestino; }
-    public void setUnidadDestino(String unidadDestino) {
+    public String obtenerUnidadDestino() { return unidadDestino; }
+    public void asignarUnidadDestino(String unidadDestino) {
         if (unidadDestino == null || unidadDestino.trim().isEmpty()) {
             throw new IllegalArgumentException("La unidad de destino es obligatoria.");
         }
