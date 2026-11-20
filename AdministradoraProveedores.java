@@ -1,4 +1,4 @@
-    public class AdministradoraProveedores {
+public class AdministradoraProveedores {
     public static final int MAXIMO_PROVEEDOR = 100;
 
     private Proveedor[] proveedores;
@@ -74,7 +74,7 @@
         return proveedores;
     }
 
-    public int obtenerContadorProveedor() {
+    public int obtenerContadorProveedores() {
         return contadorProveedor;
     }
 }
