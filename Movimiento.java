@@ -9,11 +9,11 @@ public abstract class Movimiento {
     private double precioUnitario;
 
     public Movimiento(String folio, LocalDate fecha, Producto producto, int cantidad) {
-        setFolio(folio);
-        setFecha(fecha);
-        setProducto(producto);
-        setCantidad(cantidad);
-        setPrecioUnitario(producto.getPrecio());
+        asignarFolio(folio);
+        asignarFecha(fecha);
+        asignarProducto(producto);
+        asignarCantidad(cantidad);
+        asignarPrecioUnitario(producto.obtenerPrecio());
     }
 
     public abstract int calcularVariacion();
@@ -23,40 +23,40 @@ public abstract class Movimiento {
         return cantidad * precioUnitario;
     }
 
-    public String getFolio() { return folio; }
-    public void setFolio(String folio) {
+    public String obtenerFolio() { return folio; }
+    public void asignarFolio(String folio) {
         if (folio == null || folio.trim().isEmpty()) {
             throw new IllegalArgumentException("El folio es obligatorio.");
         }
         this.folio = folio.trim().toUpperCase();
     }
 
-    public LocalDate getFecha() { return fecha; }
-    public void setFecha(LocalDate fecha) {
+    public LocalDate obtenerFecha() { return fecha; }
+    public void asignarFecha(LocalDate fecha) {
         if (fecha == null) {
             throw new IllegalArgumentException("La fecha es obligatoria.");
         }
         this.fecha = fecha;
     }
 
-    public Producto getProducto() { return producto; }
-    public void setProducto(Producto producto) {
+    public Producto obtenerProducto() { return producto; }
+    public void asignarProducto(Producto producto) {
         if (producto == null) {
             throw new IllegalArgumentException("El producto es obligatorio.");
         }
         this.producto = producto;
     }
 
-    public int getCantidad() { return cantidad; }
-    public void setCantidad(int cantidad) {
+    public int obtenerCantidad() { return cantidad; }
+    public void asignarCantidad(int cantidad) {
         if (cantidad < CANTIDAD_MINIMA) {
             throw new IllegalArgumentException("La cantidad minima es " + CANTIDAD_MINIMA + ".");
         }
         this.cantidad = cantidad;
     }
 
-    public double getPrecioUnitario() { return precioUnitario; }
-    public void setPrecioUnitario(double precioUnitario) {
+    public double obtenerPrecioUnitario() { return precioUnitario; }
+    public void asignarPrecioUnitario(double precioUnitario) {
         if (!Double.isFinite(precioUnitario) || precioUnitario < Producto.PRECIO_MINIMO) {
             throw new IllegalArgumentException("Precio unitario invalido.");
         }
